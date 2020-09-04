@@ -1,0 +1,28 @@
+#app {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  height: 100vh;
+}
+
+.panel {
+  background: gray;
+}
+
+.text {
+  padding: 1rem;
+}
+
+.title {
+  padding: 1rem;
+}
+
+.content {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.panel {
+  padding: 1rem;
+  text-align: center;
+}

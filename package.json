@@ -1,0 +1,22 @@
+{
+  "name": "site-constructor",
+  "version": "1.0.0",
+  "description": "site constructor on pure js",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "serve": "webpack-dev-server --mode development",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": " <aleksej.lobikov@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^4.2.2",
+    "html-webpack-plugin": "^4.4.1",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-server": "^0.1.2"
+  }
+}
