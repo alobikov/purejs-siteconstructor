@@ -1,8 +1,10 @@
+import imgCoffee from "./assets/glass-coffee-wooden-board.jpg";
+
 export const model = [
   {
     type: "title",
     value: "This is content",
-    options: {},
+    options: { styles: "color: blue; text-align: center;" },
   },
   {
     type: "text",
@@ -13,5 +15,12 @@ export const model = [
     type: "textColumns",
     value: ["Text holder 1", "Text holder 2", "Text holder 3"],
     options: {},
+  },
+  {
+    type: "image",
+    value: imgCoffee,
+    options: {
+      styles: "display: block;  margin-left: auto; margin-right: auto",
+    },
   },
 ];
