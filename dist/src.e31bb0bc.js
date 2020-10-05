@@ -164,6 +164,8 @@ exports.row = row;
 exports.col = col;
 exports.css = css;
 exports.block = block;
+exports.sizedBox = sizedBox;
+exports.imageBlock = imageBlock;
 
 function row(content) {
   var styles = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
@@ -187,6 +189,14 @@ function css() {
 
 function block(type) {
   return "\n    <form name=\"".concat(type, "\">\n    <h5>").concat(type, "</h5>\n    <div class=\"form-group\">\n    <input class=\"form-control form-control-sm\" name=\"value\" placeholder=\"value\">\n    </div>\n    <div class=\"form-group\">\n        <input class=\"form-control form-control-sm\" name=\"styles\" placeholder=\"styles\">\n    </div>\n    <button type=\"submit\" class=\"btn btn-primary btn-sm\">Add</button>\n    </form>\n    <ht />\n    ");
+}
+
+function sizedBox(height) {
+  return "\n  <div style=\"height: ".concat(height, "px\"></div>\n  ");
+}
+
+function imageBlock() {
+  return "\n    <form name=\"image block\">\n      <h5>image block</h5>\n      <div class=\"form-group\">\n        <input class=\"form-control form-control-sm\" name=\"value\" placeholder=\"image link\" value=\"https://image.freepik.com/free-vector/construction-site_23-2147513565.jpg\">\n      </div>\n      <div class=\"form-group\">\n        <input class=\"form-control form-control-sm\" name=\"styles\" placeholder=\"styles\">\n      </div>\n        <button type=\"submit\" class=\"btn btn-primary btn-sm\">Add</button>\n    </form>\n    <ht />\n    ";
 }
 },{}],"constrains/model.js":[function(require,module,exports) {
 "use strict";
@@ -378,6 +388,7 @@ var Sidebar = /*#__PURE__*/function () {
     key: "init",
     value: function init() {
       this.$el.insertAdjacentHTML("afterbegin", this.template);
+      this.$el.insertAdjacentHTML("afterbegin", "<h2>ToolBox</h2>");
       this.$el.addEventListener("submit", this.add.bind(this));
     }
   }, {
@@ -387,19 +398,38 @@ var Sidebar = /*#__PURE__*/function () {
       var type = event.target.name;
       var value = event.target.value.value;
       var styles = event.target.styles.value;
-      var block = type === "text" ? new _model.TextBody(value, {
-        styles: styles
-      }) : new _model.TitleBody(value, {
-        styles: styles
-      });
+      var block = this.reducer(type, value, styles);
       event.target.value.value = "";
       event.target.styles.value = "";
       this.updateSite(block);
     }
   }, {
+    key: "reducer",
+    value: function reducer(type, value, styles) {
+      switch (type) {
+        case "text block":
+          return new _model.TextBody(value, {
+            styles: styles
+          });
+
+        case "title block":
+          return new _model.TitleBody(value, {
+            styles: styles
+          });
+
+        case "image block":
+          return new _model.ImageBody(value, {
+            styles: styles
+          });
+
+        default:
+          return new _model.TextBody("Bad block type", {});
+      }
+    }
+  }, {
     key: "template",
     get: function get() {
-      return [(0, _utils.block)("text"), (0, _utils.block)("title")].join("");
+      return [(0, _utils.sizedBox)(20), (0, _utils.block)("text block"), (0, _utils.sizedBox)(40), (0, _utils.block)("title block"), (0, _utils.sizedBox)(40), (0, _utils.imageBlock)()].join("");
     }
   }]);
 
@@ -456,8 +486,8 @@ var App = /*#__PURE__*/function () {
 }();
 
 exports.default = App;
-},{"./site":"constrains/site.js","./sidebar":"constrains/sidebar.js"}],"assets/glass-coffee-wooden-board.jpg":[function(require,module,exports) {
-module.exports = "/glass-coffee-wooden-board.aa0b6072.jpg";
+},{"./site":"constrains/site.js","./sidebar":"constrains/sidebar.js"}],"assets/website-construction.jpg":[function(require,module,exports) {
+module.exports = "/website-construction.d668179b.jpg";
 },{}],"model.js":[function(require,module,exports) {
 "use strict";
 
@@ -466,47 +496,55 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.model = void 0;
 
-var _glassCoffeeWoodenBoard = _interopRequireDefault(require("./assets/glass-coffee-wooden-board.jpg"));
+var _websiteConstruction = _interopRequireDefault(require("./assets/website-construction.jpg"));
 
 var _model = require("./constrains/model");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var model = [new _model.TitleBody("Site constructor powered by pure JavaScript", {
+var model = [new _model.TitleBody("Site Constructor Powered by Pure JavaScript", {
   styles: {
-    color: "blue",
+    color: "#a3520a",
     "text-align": "center",
-    padding: "1.5rem"
-  },
-  tag: "h2"
-}), new _model.TextBody("Models built as classes", {
-  styles: {
-    background: "linear-gradient(to bottom, #f2994a, #f2c94c)",
-    padding: "1rem",
+    padding: "1.5rem",
     "font-weight": "bold"
-  }
-}), new _model.TextColumnsBody(["Text holder 1", "Text holder 2", "Text holder 3"], {
+  },
+  tag: "h1"
+}), new _model.ImageBody(_websiteConstruction.default, {
+  styles: {
+    "padding-bottom": "2rem",
+    display: "flex",
+    "justify-content": "center"
+  },
+  imageStyles: {
+    width: "800px",
+    height: "auto"
+  },
+  alt: "Cup of coffee" // styles: "display: block;  margin-left: auto; margin-right: auto",
+
+}), new _model.TextColumnsBody(["Features", "Learned"], {
+  //? destructuring with default value, destructuring with rename
   styles: {
     background: "linear-gradient(to bottom, #8e2de2, #4a00e0)",
     padding: "2rem",
     color: "#fff",
     "font-weight": "bold"
   }
-}), new _model.ImageBody(_glassCoffeeWoodenBoard.default, {
+}), new _model.TextBody("Models built as classes", {
   styles: {
-    padding: "2rem 0",
-    display: "flex",
-    "justify-content": "center"
-  },
-  imageStyles: {
-    width: "500px",
-    height: "auto"
-  },
-  alt: "Cup of coffee" // styles: "display: block;  margin-left: auto; margin-right: auto",
-
+    background: "linear-gradient(to bottom, #f2994a, #f2c94c)",
+    padding: "1rem",
+    "font-weight": "bold"
+  }
+}), new _model.TextBody("No external libraries used!", {
+  styles: {
+    background: "linear-gradient(to bottom, #f2994a, #f2c94c)",
+    padding: "1rem",
+    "font-weight": "bold"
+  }
 })];
 exports.model = model;
-},{"./assets/glass-coffee-wooden-board.jpg":"assets/glass-coffee-wooden-board.jpg","./constrains/model":"constrains/model.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"./assets/website-construction.jpg":"assets/website-construction.jpg","./constrains/model":"constrains/model.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -618,7 +656,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55955" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56401" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

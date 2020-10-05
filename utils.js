@@ -27,3 +27,25 @@ export function block(type) {
     <ht />
     `;
 }
+
+export function sizedBox(height) {
+  return `
+  <div style="height: ${height}px"></div>
+  `;
+}
+
+export function imageBlock() {
+  return `
+    <form name="image block">
+      <h5>image block</h5>
+      <div class="form-group">
+        <input class="form-control form-control-sm" name="value" placeholder="image link" value="https://image.freepik.com/free-vector/construction-site_23-2147513565.jpg">
+      </div>
+      <div class="form-group">
+        <input class="form-control form-control-sm" name="styles" placeholder="styles">
+      </div>
+        <button type="submit" class="btn btn-primary btn-sm">Add</button>
+    </form>
+    <ht />
+    `;
+}
